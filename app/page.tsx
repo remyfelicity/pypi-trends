@@ -19,6 +19,8 @@ const DownloadStatsSchema = z.object({
       downloads: z.int(),
     }),
   ),
+  package: z.string(),
+  type: z.string(),
 });
 
 async function fetchDownloadStats(packageName: string) {
