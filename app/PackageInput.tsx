@@ -10,7 +10,7 @@ const parseAsPackageNames = createParser({
   serialize: (value) => value.join(","),
 });
 
-export default function PackageInput() {
+export function PackageInput() {
   const [input, setInput] = useState("");
   const [packageNames, setPackageNames] = useQueryState(
     "p",

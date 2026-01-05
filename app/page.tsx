@@ -1,6 +1,6 @@
 import { createLoader, createParser, type SearchParams } from "nuqs/server";
 import z from "zod";
-import PackageInput from "./PackageInput";
+import { PackageInput } from "./PackageInput";
 
 const parseAsPackageNames = createParser({
   parse: (query) => (query.length === 0 ? null : query.split(",")),
