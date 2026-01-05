@@ -11,24 +11,31 @@ const loadSearchParams = createLoader({
   p: parseAsPackageNames,
 });
 
-const DownloadStatsSchema = z.object({
+const PackageDownloadStatsSchema = z.object({
   data: z.array(
     z.object({
-      category: z.string(),
       date: z.string().transform((date) => new Date(date)),
       downloads: z.int(),
     }),
   ),
-  package: z.string(),
-  type: z.string(),
 });
 
-async function fetchDownloadStats(packageName: string) {
-  const response = await fetch(
-    `https://pypistats.org/api/packages/${packageName}/overall?mirrors=false`,
-  );
-  const json = await response.json();
-  return DownloadStatsSchema.parse(json);
+type PackageDownloadStats = z.infer<typeof PackageDownloadStatsSchema>;
+
+async function fetchPackageDownloadStats(packageNames: string[]) {
+  const packageDownloadStats = new Map<string, PackageDownloadStats>();
+  for (const packageName of packageNames) {
+    try {
+      const response = await fetch(
+        `https://pypistats.org/api/packages/${packageName}/overall?mirrors=false`,
+      );
+      const data = await response.json();
+      const parsedData = PackageDownloadStatsSchema.parse(data);
+      packageDownloadStats.set(packageName, parsedData);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {}
+  }
+  return packageDownloadStats;
 }
 
 export default async function Home({
@@ -39,7 +46,7 @@ export default async function Home({
   const { p } = await loadSearchParams(searchParams);
   const packageNames = p ?? [];
 
-  const downloadStats = Promise.all(packageNames.map(fetchDownloadStats));
+  const packageDownloadStats = fetchPackageDownloadStats(packageNames);
 
   return (
     <div className="mx-auto max-w-4xl px-4">
