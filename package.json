@@ -12,6 +12,7 @@
   "dependencies": {
     "@headlessui/react": "2.2.9",
     "@heroicons/react": "2.2.0",
+    "@observablehq/plot": "0.6.17",
     "next": "16.1.1",
     "nuqs": "2.8.6",
     "react": "19.2.3",
