@@ -26,13 +26,16 @@ async function fetchPackageDownloadStats(packageNames: string[]) {
   const packageDownloadStats = new Map<string, PackageDownloadStats["data"]>();
   await Promise.all(
     packageNames.map(async (packageName) => {
-      fetch(
-        `https://pypistats.org/api/packages/${packageName}/overall?mirrors=false`,
-      )
-        .then((response) => response.json())
-        .then((json) => PackageDownloadStatsSchema.parse(json))
-        .then((json) => packageDownloadStats.set(packageName, json.data))
-        .catch();
+      try {
+        const response = await fetch(
+          `https://pypistats.org/api/packages/${packageName}/overall?mirrors=false`,
+        );
+        const json = await response.json();
+        const parsedJson = PackageDownloadStatsSchema.parse(json);
+        packageDownloadStats.set(packageName, parsedJson.data);
+      } catch (error) {
+        console.error(error);
+      }
     }),
   );
   return packageDownloadStats;
