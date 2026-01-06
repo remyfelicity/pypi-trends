@@ -14,7 +14,10 @@ export function PackageInput() {
   const [input, setInput] = useState("");
   const [packageNames, setPackageNames] = useQueryState(
     "p",
-    parseAsPackageNames,
+    parseAsPackageNames.withOptions({
+      history: "push",
+      shallow: false,
+    }),
   );
 
   function handleAddPackage(event: FormEvent) {
