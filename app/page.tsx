@@ -24,17 +24,17 @@ type PackageDownloadStats = z.infer<typeof PackageDownloadStatsSchema>;
 
 async function fetchPackageDownloadStats(packageNames: string[]) {
   const packageDownloadStats = new Map<string, PackageDownloadStats["data"]>();
-  for (const packageName of packageNames) {
-    try {
-      const response = await fetch(
+  await Promise.all(
+    packageNames.map(async (packageName) => {
+      fetch(
         `https://pypistats.org/api/packages/${packageName}/overall?mirrors=false`,
-      );
-      const data = await response.json();
-      const parsedData = PackageDownloadStatsSchema.parse(data).data;
-      packageDownloadStats.set(packageName, parsedData);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {}
-  }
+      )
+        .then((response) => response.json())
+        .then((json) => PackageDownloadStatsSchema.parse(json))
+        .then((json) => packageDownloadStats.set(packageName, json.data))
+        .catch();
+    }),
+  );
   return packageDownloadStats;
 }
 
