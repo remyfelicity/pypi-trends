@@ -29,6 +29,7 @@ export function PackageChart({
       theme={VictoryTheme.clean}
     >
       <VictoryAxis
+        crossAxis
         tickFormat={(timestamp: number) =>
           new Date(timestamp).toLocaleString("en-US", {
             day: "numeric",
