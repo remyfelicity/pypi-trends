@@ -1,14 +1,14 @@
-import { createLoader, createParser, type SearchParams } from "nuqs/server";
+import {
+  createLoader,
+  parseAsArrayOf,
+  parseAsString,
+  type SearchParams,
+} from "nuqs/server";
 import z from "zod";
 import { PackageInput } from "./PackageInput";
 
-const parseAsPackageNames = createParser({
-  parse: (query) => (query.length === 0 ? null : query.split(",")),
-  serialize: (value) => value.join(","),
-});
-
 const loadSearchParams = createLoader({
-  p: parseAsPackageNames,
+  p: parseAsArrayOf(parseAsString),
 });
 
 const PackageDownloadStatsSchema = z.object({

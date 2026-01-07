@@ -2,19 +2,14 @@
 
 import { Button, Input } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/20/solid";
-import { createParser, useQueryState } from "nuqs";
+import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
 import { useState, type FormEvent } from "react";
-
-const parseAsPackageNames = createParser({
-  parse: (query) => (query.length === 0 ? null : query.split(",")),
-  serialize: (value) => value.join(","),
-});
 
 export function PackageInput() {
   const [input, setInput] = useState("");
   const [packageNames, setPackageNames] = useQueryState(
     "p",
-    parseAsPackageNames.withOptions({
+    parseAsArrayOf(parseAsString).withOptions({
       history: "push",
       shallow: false,
     }),
