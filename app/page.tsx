@@ -4,7 +4,9 @@ import {
   parseAsString,
   type SearchParams,
 } from "nuqs/server";
+import { Suspense } from "react";
 import z from "zod";
+import { PackageChart } from "./PackageChart";
 import { PackageInput } from "./PackageInput";
 
 const loadSearchParams = createLoader({
@@ -55,6 +57,9 @@ export default async function Home({
     <div className="mx-auto max-w-4xl px-4">
       <h1 className="flex h-16 items-center text-xl">PyPI Trends</h1>
       <PackageInput />
+      <Suspense>
+        <PackageChart data={packageDownloadStats} />
+      </Suspense>
     </div>
   );
 }
