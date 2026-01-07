@@ -18,6 +18,8 @@ export function PackageChart({
 }) {
   const data = use(dataPromise);
 
+  if (!data.size) return null;
+
   return (
     <VictoryChart
       padding={{
