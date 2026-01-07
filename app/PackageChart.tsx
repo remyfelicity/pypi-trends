@@ -25,14 +25,16 @@ export function PackageChart({
       <VictoryChart
         padding={{
           top: 0,
-          left: 40,
-          bottom: 40,
+          left: 50,
+          bottom: 50,
           right: 0,
         }}
         theme={VictoryTheme.clean}
       >
         <VictoryAxis
           crossAxis
+          style={{ tickLabels: { fontSize: 20 } }}
+          tickCount={3}
           tickFormat={(timestamp: number) =>
             new Date(timestamp).toLocaleString("en-US", {
               day: "numeric",
@@ -42,7 +44,10 @@ export function PackageChart({
         />
         <VictoryAxis
           dependentAxis
-          style={{ grid: { stroke: "oklch(87.2% 0.01 258.338)" } }}
+          style={{
+            grid: { stroke: "oklch(87.2% 0.01 258.338)" },
+            tickLabels: { fontSize: 20 },
+          }}
           tickFormat={(downloadCount: number) =>
             downloadCount.toLocaleString("en-US", { notation: "compact" })
           }
@@ -60,7 +65,7 @@ export function PackageChart({
               style={{
                 data: {
                   stroke: VictoryTheme.clean.palette?.qualitative?.at(i),
-                  strokeWidth: 1,
+                  strokeWidth: 2,
                 },
               }}
             />
