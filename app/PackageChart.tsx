@@ -60,6 +60,7 @@ export function PackageChart({
           .toArray()
           .map(([packageName, packageData], i) => (
             <VictoryLine
+              animate={{ duration: 1000 }}
               data={packageData.map((packageDatum) => ({
                 x: packageDatum.date,
                 y: packageDatum.downloads,
