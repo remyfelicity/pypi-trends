@@ -25,8 +25,8 @@ export function PackageChart({
       <VictoryChart
         padding={{
           top: 0,
-          left: 50,
-          bottom: 50,
+          left: 60,
+          bottom: 40,
           right: 0,
         }}
         theme={VictoryTheme.clean}
