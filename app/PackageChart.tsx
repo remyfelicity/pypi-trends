@@ -33,7 +33,10 @@ export function PackageChart({
       >
         <VictoryAxis
           crossAxis
-          style={{ tickLabels: { fontSize: 20 } }}
+          style={{
+            grid: { stroke: "oklch(87.2% 0.01 258.338)" },
+            tickLabels: { fontSize: 20 },
+          }}
           tickCount={3}
           tickFormat={(timestamp: number) =>
             new Date(timestamp).toLocaleString("en-US", {
