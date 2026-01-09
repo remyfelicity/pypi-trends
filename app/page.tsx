@@ -36,7 +36,7 @@ async function getChartData(packageNames: string[]) {
         }
 
         const json = await response.json();
-        const data = APIDataSchema.parse(json).data;
+        const { data } = APIDataSchema.parse(json);
 
         for (const { date, downloads } of data) {
           const record = series.get(date) ?? {};
