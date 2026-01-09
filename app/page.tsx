@@ -16,7 +16,7 @@ const loadSearchParams = createLoader({
 const APIDataSchema = z.object({
   data: z.array(
     z.object({
-      date: z.string(),
+      date: z.iso.date(),
       downloads: z.int(),
     }),
   ),
