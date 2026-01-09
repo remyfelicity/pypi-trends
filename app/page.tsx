@@ -29,6 +29,7 @@ async function getChartData(packageNames: string[]) {
       try {
         const response = await fetch(
           `https://pypistats.org/api/packages/${packageName}/overall?mirrors=false`,
+          { next: { revalidate: 3600 } },
         );
         if (!response.ok) {
           throw new Error();
