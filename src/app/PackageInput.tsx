@@ -2,7 +2,7 @@
 
 import { Button, Input } from "@headlessui/react";
 import { ExclamationCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
-import { SquaresPlusIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
 import { use, useState, type FormEvent } from "react";
 import { type ChartData } from "../lib/getChartData";
@@ -51,24 +51,15 @@ export function PackageInput({ data }: { data: Promise<ChartData> }) {
   return (
     <>
       <div className="flex flex-col items-center gap-4 p-4">
-        <form
-          className="flex w-full max-w-lg gap-2"
-          onSubmit={handleAddPackage}
-        >
+        <form className="relative w-full max-w-lg" onSubmit={handleAddPackage}>
           <Input
-            className="h-12 grow rounded-lg border border-gray-300 px-4 shadow placeholder:text-gray-500"
+            className="h-16 w-full rounded-lg border border-gray-300 pr-12 pl-6 text-xl shadow placeholder:text-gray-400"
             onChange={(event) => setInput(event.target.value)}
-            placeholder="Enter a package name"
+            placeholder="Search for packages"
             type="text"
             value={input}
           />
-          <Button
-            className="flex cursor-pointer items-center gap-2 rounded-lg bg-sky-700 px-4 text-white shadow transition-colors duration-200 hover:bg-sky-600"
-            type="submit"
-          >
-            <SquaresPlusIcon className="size-5" />
-            Add
-          </Button>
+          <MagnifyingGlassIcon className="absolute top-5 right-5 size-6 text-gray-400" />
         </form>
         <ul className="flex max-w-5xl flex-wrap justify-center gap-2">
           {packageNames?.map((packageName) => {
