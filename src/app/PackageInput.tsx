@@ -2,6 +2,7 @@
 
 import { Button, Input } from "@headlessui/react";
 import { ExclamationCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { SquaresPlusIcon } from "@heroicons/react/24/outline";
 import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
 import { use, useState, type FormEvent } from "react";
 import { type ChartData } from "../lib/getChartData";
@@ -23,7 +24,10 @@ export function PackageInput({ data }: { data: Promise<ChartData> }) {
     const normalizedPackageName = input.toLowerCase().trim();
     setInput("");
 
-    if (packageNames?.includes(normalizedPackageName)) {
+    if (
+      !normalizedPackageName ||
+      packageNames?.includes(normalizedPackageName)
+    ) {
       return;
     }
     setPackageNames(
@@ -46,37 +50,53 @@ export function PackageInput({ data }: { data: Promise<ChartData> }) {
 
   return (
     <>
-      <form onSubmit={handleAddPackage}>
-        <Input
-          className="h-12 w-full rounded-full border border-gray-300 px-4 placeholder:text-gray-500"
-          onChange={(event) => setInput(event.target.value)}
-          placeholder="Enter a package name"
-          type="text"
-          value={input}
-        />
-      </form>
-      <ul className="mt-2 flex flex-wrap gap-2">
-        {packageNames?.map((packageName) => {
-          const isError = errorPackageNames.has(packageName);
-          return (
-            <li
-              className={`flex h-12 items-center rounded-full border border-gray-300 pl-4 ${isError ? "bg-red-50" : ""}`}
-              key={packageName}
-            >
-              {isError ? (
-                <ExclamationCircleIcon className="mr-2 size-5 text-red-600" />
-              ) : null}
-              {packageName}
-              <Button
-                className="grid size-12 cursor-pointer place-items-center rounded-full"
-                onClick={() => handleRemovePackage(packageName)}
+      <div className="flex flex-col items-center gap-4 p-4">
+        <form
+          className="flex w-full max-w-lg gap-2"
+          onSubmit={handleAddPackage}
+        >
+          <Input
+            className="h-12 grow rounded-lg border border-gray-300 px-4 shadow placeholder:text-gray-500"
+            onChange={(event) => setInput(event.target.value)}
+            placeholder="Enter a package name"
+            type="text"
+            value={input}
+          />
+          <Button
+            className="flex cursor-pointer items-center gap-2 rounded-lg bg-sky-700 px-4 text-white shadow transition-colors duration-200 hover:bg-sky-600"
+            type="submit"
+          >
+            <SquaresPlusIcon className="size-5" />
+            Add
+          </Button>
+        </form>
+        <ul className="flex max-w-5xl flex-wrap justify-center gap-2">
+          {packageNames?.map((packageName) => {
+            const isError = errorPackageNames.has(packageName);
+            return (
+              <li
+                className={`flex h-12 items-center rounded-lg border pl-4 shadow ${isError ? "border-red-300 bg-red-50" : "border-gray-300"}`}
+                key={packageName}
               >
-                <XMarkIcon className="size-5" />
-              </Button>
-            </li>
-          );
-        })}
-      </ul>
+                {isError ? (
+                  <ExclamationCircleIcon className="mr-2 size-5 text-red-600" />
+                ) : null}
+                {packageName}
+                <Button
+                  className="group grid size-12 cursor-pointer place-items-center rounded-full"
+                  onClick={() => handleRemovePackage(packageName)}
+                >
+                  <div
+                    className={`grid size-8 place-items-center rounded-lg transition-colors duration-200 ${isError ? "group-hover:bg-red-100" : "group-hover:bg-gray-100"}`}
+                  >
+                    <XMarkIcon className="size-5" />
+                  </div>
+                </Button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </>
   );
 }
