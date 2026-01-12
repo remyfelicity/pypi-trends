@@ -53,9 +53,9 @@ export function PackageInput({ data }: { data: Promise<ChartData> }) {
       <div className="flex flex-col items-center gap-4 p-4">
         <form className="relative w-full max-w-lg" onSubmit={handleAddPackage}>
           <Input
-            className="h-16 w-full rounded-lg border border-gray-300 pr-12 pl-6 text-xl shadow placeholder:text-gray-400"
+            className="h-16 w-full rounded-lg border border-gray-300 px-12 text-center text-xl font-light shadow placeholder:text-gray-400"
             onChange={(event) => setInput(event.target.value)}
-            placeholder="Search for packages"
+            placeholder="Find package"
             type="text"
             value={input}
           />
