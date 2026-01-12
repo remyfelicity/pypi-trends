@@ -10,7 +10,7 @@ export function PackageChart({
 }) {
   const data = use(dataPromise);
 
-  if (!data.length) return null;
+  if (!data.packageData.length) return null;
 
   return <></>;
 }

@@ -1,11 +1,13 @@
 "use client";
 
 import { Button, Input } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/20/solid";
+import { ExclamationCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
-import { useState, type FormEvent } from "react";
+import { use, useState, type FormEvent } from "react";
+import { type ChartData } from "../lib/getChartData";
 
-export function PackageInput() {
+export function PackageInput({ data }: { data: Promise<ChartData> }) {
+  const { errorPackageNames } = use(data);
   const [input, setInput] = useState("");
   const [packageNames, setPackageNames] = useQueryState(
     "p",
@@ -54,20 +56,26 @@ export function PackageInput() {
         />
       </form>
       <ul className="mt-2 flex flex-wrap gap-2">
-        {packageNames?.map((packageName) => (
-          <li
-            className="flex h-12 items-center rounded-full border border-gray-300 pl-4"
-            key={packageName}
-          >
-            {packageName}
-            <Button
-              className="grid size-12 cursor-pointer place-items-center rounded-full"
-              onClick={() => handleRemovePackage(packageName)}
+        {packageNames?.map((packageName) => {
+          const isError = errorPackageNames.has(packageName);
+          return (
+            <li
+              className={`flex h-12 items-center rounded-full border border-gray-300 pl-4 ${isError ? "bg-red-50" : ""}`}
+              key={packageName}
             >
-              <XMarkIcon className="size-5" />
-            </Button>
-          </li>
-        ))}
+              {isError ? (
+                <ExclamationCircleIcon className="mr-2 size-5 text-red-600" />
+              ) : null}
+              {packageName}
+              <Button
+                className="grid size-12 cursor-pointer place-items-center rounded-full"
+                onClick={() => handleRemovePackage(packageName)}
+              >
+                <XMarkIcon className="size-5" />
+              </Button>
+            </li>
+          );
+        })}
       </ul>
     </>
   );

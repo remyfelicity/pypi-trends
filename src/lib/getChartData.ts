@@ -11,6 +11,8 @@ const APIDataSchema = z.object({
 
 export async function getChartData(packageNames: string[]) {
   const series = new Map<string, Record<string, number>>();
+  const errorPackageNames = new Set<string>();
+
   await Promise.all(
     packageNames.map(async (packageName) => {
       try {
@@ -30,17 +32,21 @@ export async function getChartData(packageNames: string[]) {
           record[packageName] = downloads;
           series.set(date, record);
         }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
-        console.error(error);
+        errorPackageNames.add(packageName);
       }
     }),
   );
 
-  return series
-    .entries()
-    .toArray()
-    .map(([date, data]) => ({ date, data }))
-    .sort((a, b) => (a.date > b.date ? 1 : -1));
+  return {
+    packageData: series
+      .entries()
+      .toArray()
+      .map(([date, record]) => ({ date, record }))
+      .sort((a, b) => (a.date > b.date ? 1 : -1)),
+    errorPackageNames,
+  };
 }
 
 export type ChartData = Awaited<ReturnType<typeof getChartData>>;
