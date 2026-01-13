@@ -53,7 +53,7 @@ export function PackageInput({ data }: { data: Promise<ChartData> }) {
       <div className="flex flex-col items-center gap-4 p-4">
         <form className="relative w-full max-w-lg" onSubmit={handleAddPackage}>
           <Input
-            className="h-16 w-full rounded-lg border border-gray-300 px-12 text-center text-xl font-light shadow placeholder:text-gray-400"
+            className="h-16 w-full rounded-lg border border-gray-200 px-12 text-center text-2xl font-light shadow placeholder:text-gray-400"
             onChange={(event) => setInput(event.target.value)}
             placeholder="Find package"
             type="text"
@@ -66,7 +66,7 @@ export function PackageInput({ data }: { data: Promise<ChartData> }) {
             const isError = errorPackageNames.has(packageName);
             return (
               <li
-                className={`flex h-12 items-center rounded-lg border pl-4 shadow ${isError ? "border-red-300 bg-red-50" : "border-gray-300"}`}
+                className={`flex h-12 items-center rounded-lg border pl-4 shadow ${isError ? "border-red-200 bg-red-50" : "border-gray-200"}`}
                 key={packageName}
               >
                 {isError ? (
