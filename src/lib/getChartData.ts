@@ -43,8 +43,8 @@ export async function getChartData(packageNames: string[]) {
     packageData: series
       .entries()
       .toArray()
-      .map(([date, record]) => ({ date, record }))
-      .sort((a, b) => (a.date > b.date ? 1 : -1)),
+      .map(([date, record]) => ({ _date: new Date(date), ...record }))
+      .sort((a, b) => (a._date > b._date ? 1 : -1)),
     errorPackageNames,
   };
 }
