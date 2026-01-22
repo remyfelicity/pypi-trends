@@ -30,7 +30,7 @@ export default async function Home({
       </div>
       <PackageInput data={chartData} />
       <Suspense>
-        <PackageChart data={chartData} />
+        <PackageChart data={chartData} packageNames={packageNames} />
       </Suspense>
     </>
   );
